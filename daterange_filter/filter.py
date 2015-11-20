@@ -63,12 +63,14 @@ class DateRangeForm(DateRangeFilterBaseForm):
 
     def __init__(self, *args, **kwargs):
         field_name = kwargs.pop('field_name')
+        field_verbosename = kwargs.pop('field_verbosename')
         super(DateRangeForm, self).__init__(*args, **kwargs)
 
         self.fields['%s__gte' % field_name] = forms.DateField(
             label='',
             widget=AdminDateWidget(
-                attrs={'placeholder': _('From date')}
+                attrs={'placeholder': _('From date'),
+                       'field_verbosename': field_verbosename}
             ),
             localize=True,
             required=False
@@ -77,7 +79,8 @@ class DateRangeForm(DateRangeFilterBaseForm):
         self.fields['%s__lte' % field_name] = forms.DateField(
             label='',
             widget=AdminDateWidget(
-                attrs={'placeholder': _('To date')}
+                attrs={'placeholder': _('To date'),
+                       'field_verbosename': field_verbosename}
             ),
             localize=True,
             required=False,
@@ -127,7 +130,8 @@ class DateRangeFilter(admin.filters.FieldListFilter):
 
     def get_form(self, request):
         return DateRangeForm(request, data=self.used_parameters,
-                             field_name=self.field_path)
+                             field_name=self.field_path,
+                             field_verbosename=self.field.verbose_name)
 
     def queryset(self, request, queryset):
         if self.form.is_valid():
