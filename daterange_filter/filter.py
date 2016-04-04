@@ -51,11 +51,11 @@ class DateRangeFilterBaseForm(forms.Form):
             setattr(self.request, 'daterange_filter_media_included', True)
 
             js = ["calendar.js", "admin/DateTimeShortcuts.js"]
-            css = ['widgets.css']
+            # css = ['widgets.css']
 
             return forms.Media(
                 js=[static("admin/js/%s" % path) for path in js],
-                css={'all': [static("admin/css/%s" % path) for path in css]}
+                # css={'all': [static("admin/css/%s" % path) for path in css]}
             )
 
 
